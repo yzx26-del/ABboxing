@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>跨时空锐评</title>
+<style>
+:root {
+  --white: #ffffff;
+  --black: #111111;
+  --gray-50: #fafafa;
+  --gray-100: #f5f5f5;
+  --gray-200: #ebebeb;
+  --gray-300: #e0e0e0;
+  --gray-400: #bbb;
+  --gray-600: #888;
+  --blue-light: #E3F2FD;
+  --blue-mid: #90CAF9;
+  --blue-dark: #1565C0;
+  --green-light: #E8F5E9;
+  --green-mid: #A5D6A7;
+  --green-dark: #2E7D32;
+  --red-light: #fff5f5;
+  --red-mid: #ef9a9a;
+  --red-dark: #e53935;
+  --red-text: #b71c1c;
+  --yellow-light: #FFFDE7;
+  --yellow-mid: #FFE082;
+  --yellow-dark: #F57F17;
+  --yellow-text: #E65100;
+  --purple-light: #f3e5f5;
+  --purple-mid: #ce93d8;
+  --purple-dark: #6a1b9a;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Georgia', serif; background: #f8f8f6; color: var(--black); min-height: 100vh; }
+.container { max-width: 860px; margin: 0 auto; padding: 24px 20px; }
+.card { background: var(--white); border: 0.5px solid var(--gray-200); border-radius: 12px; overflow: hidden; margin-bottom: 16px; }
+.progress { display: flex; align-items: center; padding: 14px 22px; border-bottom: 0.5px solid var(--gray-200); background: var(--gray-50); }
+.ps { display: flex; align-items: center; flex: 1; }
+.ps-dot { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--gray-300); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--gray-400); background: var(--white); flex-shrink: 0; transition: all .3s; font-family: system-ui; }
+.ps-dot.done { background: var(--black); border-color: var(--black); color: var(--white); }
+.ps-dot.cur { border-color: var(--black); color: var(--black); font-weight: 600; }
+.ps-label { font-size: 10px; color: var(--gray-400); margin-left: 6px; font-family: system-ui; transition: color .3s; }
+.ps-label.cur { color: var(--black); }
+.ps-label.done { color: var(--gray-600); }
+.ps-line { flex: 1; height: 0.5px; background: var(--gray-200); margin: 0 8px; transition: background .3s; }
+.ps-line.done { background: var(--black); }
+.screen { display: none; }
+.screen.active { display: block; }
+.eyebrow { font-size: 10px; color: var(--gray-400); letter-spacing: .14em; font-family: system-ui; margin-bottom: 8px; }
+.title { font-size: 28px; font-weight: 400; color: var(--black); line-height: 1.2; }
+.subtitle { font-size: 13px; color: var(--gray-600); margin-top: 6px; font-family: system-ui; }
+.field-label { font-size: 10px; color: var(--gray-400); letter-spacing: .08em; margin-bottom: 8px; font-family: system-ui; }
+input[type="text"], input[type="password"] { width: 100%; padding: 10px 14px; border: 0.5px solid var(--gray-300); border-radius: 8px; font-size: 14px; color: var(--black); background: var(--white); outline: none; font-family: system-ui; transition: border-color .15s; }
+input[type="text"]:focus, input[type="password"]:focus { border-color: var(--black); }
+.btn-primary { padding: 11px 24px; background: var(--black); color: var(--white); border: none; border-radius: 8px; font-size: 13px; cursor: pointer; font-family: system-ui; transition: opacity .15s; }
+.btn-primary:hover { opacity: .8; }
+.btn-primary:disabled { opacity: .3; cursor: not-allowed; }
+.btn-ghost { padding: 11px 20px; background: var(--white); border: 0.5px solid var(--gray-300); border-radius: 8px; font-size: 13px; color: var(--gray-600); cursor: pointer; font-family: system-ui; }
+.btn-ghost:hover { background: var(--gray-50); }
+.btn-sm { padding: 5px 12px; border: 0.5px solid var(--gray-300); border-radius: 20px; font-size: 11px; color: var(--gray-600); cursor: pointer; background: var(--gray-50); font-family: system-ui; }
+.btn-sm:hover { border-color: var(--gray-400); }
+.tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-family: system-ui; display: inline-block; margin: 2px 2px 2px 0; }
+.tag-g { background: var(--gray-100); color: var(--gray-600); border: 0.5px solid var(--gray-200); }
+.av { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; font-family: system-ui; }
+.av-a { background: var(--blue-light); color: var(--blue-dark); border: 1px solid var(--blue-mid); }
+.av-b { background: var(--green-light); color: var(--green-dark); border: 1px solid var(--green-mid); }
+.av-gr { background: var(--red-dark); color: var(--white); }
+.av-rand { background: var(--yellow-light); color: var(--yellow-dark); border: 1.5px solid var(--yellow-mid); }
+.av-judge { background: var(--black); color: var(--white); }
+.bubble { padding: 9px 13px; font-size: 13px; line-height: 1.65; font-family: system-ui; }
+.bub-a { border-radius: 3px 11px 11px 11px; background: var(--white); border: 1.5px solid var(--blue-mid); color: var(--black); }
+.bub-b { border-radius: 3px 11px 11px 11px; background: var(--white); border: 1.5px solid var(--green-mid); color: var(--black); }
+.bub-gr { border-radius: 3px 11px 11px 11px; background: var(--red-light); border: 1.5px solid var(--red-mid); color: var(--red-text); }
+.bub-rand { border-radius: 3px 11px 11px 11px; background: var(--yellow-light); border: 1.5px solid var(--yellow-mid); color: var(--yellow-text); }
+.bub-pl { border-radius: 11px 3px 11px 11px; background: var(--black); color: var(--white); }
+.sender-a { font-size: 10px; color: var(--blue-dark); margin-bottom: 3px; font-family: system-ui; }
+.sender-b { font-size: 10px; color: var(--green-dark); margin-bottom: 3px; font-family: system-ui; }
+.sender-gr { font-size: 10px; color: var(--red-dark); margin-bottom: 3px; font-family: system-ui; display: flex; align-items: center; gap: 5px; }
+.sender-rand { font-size: 10px; color: var(--yellow-dark); margin-bottom: 3px; font-family: system-ui; display: flex; align-items: center; gap: 5px; }
+.sender-pl { font-size: 10px; color: var(--gray-400); margin-bottom: 3px; font-family: system-ui; text-align: right; }
+.etag { font-size: 9px; padding: 1px 6px; border-radius: 8px; }
+.etag-gr { background: #ffebee; color: var(--red-dark); border: 0.5px solid #ffcdd2; }
+.etag-rand { background: var(--yellow-light); color: var(--yellow-dark); border: 0.5px solid var(--yellow-mid); }
+.msg-row { display: flex; gap: 9px; align-items: flex-start; margin-bottom: 13px; }
+.msg-row.right { flex-direction: row-reverse; }
+.msg-body { max-width: 75%; min-width: 0; }
+.gr-block { display: flex; gap: 9px; align-items: flex-start; margin-bottom: 13px; }
+.gr-bubble-wrap { flex: 1; }
+
+/* commentary strip */
+.commentary { font-size: 11px; color: var(--gray-400); font-family: system-ui; padding: 4px 0 10px 36px; font-style: italic; border-left: none; animation: fadeIn .5s; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(3px)} to{opacity:1;transform:none} }
+
+/* win-rate bar */
+.wr-bar-wrap { padding: 10px 14px; border-bottom: 0.5px solid var(--gray-200); background: var(--gray-50); flex-shrink: 0; }
+.wr-labels { display: flex; justify-content: space-between; font-size: 10px; font-family: system-ui; margin-bottom: 4px; }
+.wr-la { color: var(--blue-dark); font-weight: 500; }
+.wr-lb { color: var(--green-dark); font-weight: 500; }
+.wr-bar { height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; position: relative; }
+.wr-fill-a { position: absolute; left: 0; top: 0; height: 100%; background: var(--blue-mid); border-radius: 3px 0 0 3px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+.wr-fill-b { position: absolute; right: 0; top: 0; height: 100%; background: var(--green-mid); border-radius: 0 3px 3px 0; transition: width .8s cubic-bezier(.4,0,.2,1); }
+.wr-nums { display: flex; justify-content: space-between; font-size: 10px; font-family: system-ui; margin-top: 4px; }
+.wr-na { color: var(--blue-dark); }
+.wr-nb { color: var(--green-dark); font-text-align: right; }
+.wr-comment { font-size: 10px; color: var(--gray-400); margin-top: 5px; font-family: system-ui; font-style: italic; text-align: center; min-height: 14px; }
+
+/* musician cards S1 */
+.pool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; max-height: 340px; overflow-y: auto; padding-right: 2px; }
+.pool-card { border: 1px solid var(--gray-200); border-radius: 10px; padding: 11px 12px; cursor: pointer; transition: all .15s; position: relative; }
+.pool-card:hover { border-color: var(--gray-400); background: var(--gray-50); }
+.pool-card.sel-a { border-color: var(--blue-dark); background: var(--blue-light); }
+.pool-card.sel-b { border-color: var(--green-dark); background: var(--green-light); }
+.pc-tension { font-size: 9px; font-weight: 600; letter-spacing: .06em; font-family: system-ui; margin-bottom: 5px; color: var(--gray-400); }
+.pc-name { font-size: 13px; font-weight: 500; color: var(--black); margin-bottom: 3px; }
+.pc-era { font-size: 10px; color: var(--gray-400); font-family: system-ui; margin-bottom: 6px; }
+.pc-quote { font-size: 11px; color: #555; line-height: 1.5; font-style: italic; border-left: 2px solid var(--gray-200); padding-left: 8px; }
+.pc-badge { position: absolute; top: 8px; right: 8px; font-size: 9px; padding: 2px 7px; border-radius: 10px; font-family: system-ui; font-weight: 600; }
+.pc-badge-a { background: var(--blue-light); color: var(--blue-dark); border: 0.5px solid var(--blue-mid); }
+.pc-badge-b { background: var(--green-light); color: var(--green-dark); border: 0.5px solid var(--green-mid); }
+
+/* custom musician */
+.custom-section { border: 0.5px solid var(--gray-200); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+.custom-hd { padding: 10px 13px; background: var(--gray-50); border-bottom: 0.5px solid var(--gray-200); font-size: 11px; font-family: system-ui; color: var(--gray-600); display: flex; align-items: center; gap: 7px; }
+.custom-body { padding: 13px; }
+.persona-field { margin-bottom: 10px; }
+.persona-label { font-size: 10px; color: var(--gray-400); letter-spacing: .06em; margin-bottom: 4px; font-family: system-ui; }
+.persona-val { font-size: 12px; color: var(--black); line-height: 1.55; font-family: system-ui; padding: 7px 10px; background: var(--white); border: 0.5px solid var(--gray-200); border-radius: 6px; min-height: 34px; outline: none; width: 100%; }
+.persona-val:focus { border-color: var(--black); }
+.custom-slot { border: 1px dashed var(--gray-300); border-radius: 10px; padding: 13px; text-align: center; cursor: pointer; transition: all .15s; margin-bottom: 8px; }
+.custom-slot:hover { border-color: var(--gray-400); background: var(--gray-50); }
+.custom-slot-lbl { font-size: 11px; color: var(--gray-400); font-family: system-ui; }
+
+/* selected display */
+.sel-display { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.sd-card { border-radius: 10px; padding: 12px 13px; overflow: hidden; }
+.sd-a { background: var(--blue-light); border: 1px solid var(--blue-mid); }
+.sd-b { background: var(--green-light); border: 1px solid var(--green-mid); }
+.sd-side { font-size: 10px; font-weight: 600; margin-bottom: 5px; font-family: system-ui; }
+.sd-side-a { color: var(--blue-dark); }
+.sd-side-b { color: var(--green-dark); }
+.sd-name-a { font-size: 14px; font-weight: 500; color: var(--blue-dark); margin-bottom: 2px; }
+.sd-name-b { font-size: 14px; font-weight: 500; color: var(--green-dark); margin-bottom: 2px; }
+.sd-tension { font-size: 10px; color: var(--gray-600); font-family: system-ui; margin-bottom: 5px; }
+.sd-quote { font-size: 11px; color: #555; font-style: italic; line-height: 1.4; }
+
+/* debate layout */
+.debate-wrap { display: flex; height: 600px; }
+.sidebar { width: 196px; border-right: 0.5px solid var(--gray-200); display: flex; flex-direction: column; flex-shrink: 0; }
+.sb-song { padding: 10px 12px; border-bottom: 0.5px solid var(--gray-200); }
+.sb-lbl { font-size: 10px; color: var(--gray-400); letter-spacing: .07em; margin-bottom: 4px; font-family: system-ui; }
+.sb-sname { font-size: 12px; font-weight: 500; color: var(--black); }
+.sb-smeta { font-size: 10px; color: var(--gray-400); margin-top: 2px; font-family: system-ui; }
+.sb-cast { padding: 10px 12px; flex: 1; overflow-y: auto; }
+.sb-p { display: flex; align-items: center; gap: 7px; padding: 6px 7px; border-radius: 7px; margin-bottom: 3px; }
+.sb-p.hi { background: var(--gray-50); border: 0.5px solid var(--gray-200); }
+.sb-pname-a { font-size: 11px; font-weight: 500; color: var(--blue-dark); font-family: system-ui; }
+.sb-pname-b { font-size: 11px; font-weight: 500; color: var(--green-dark); font-family: system-ui; }
+.sb-pname-gr { font-size: 11px; font-weight: 500; color: var(--red-dark); font-family: system-ui; }
+.sb-pname-rand { font-size: 11px; font-weight: 500; color: var(--yellow-dark); font-family: system-ui; }
+.sb-pera { font-size: 10px; color: var(--gray-400); font-family: system-ui; }
+.sb-div { height: 0.5px; background: var(--gray-200); margin: 5px 0; }
+.sp-pill { margin-left: auto; font-size: 9px; padding: 2px 7px; border-radius: 10px; white-space: nowrap; font-family: system-ui; }
+.sp-a { background: var(--blue-light); color: var(--blue-dark); border: 0.5px solid var(--blue-mid); }
+.sp-b { background: var(--green-light); color: var(--green-dark); border: 0.5px solid var(--green-mid); }
+.sb-rounds { padding: 8px 10px; border-top: 0.5px solid var(--gray-200); }
+.sb-round { display: flex; align-items: center; gap: 6px; padding: 5px 7px; border-radius: 7px; margin-bottom: 2px; font-family: system-ui; }
+.sb-round.cur { background: var(--black); }
+.sb-round.cur .sr-n, .sb-round.cur .sr-lbl { color: var(--white); }
+.sr-n { width: 16px; height: 16px; border-radius: 50%; background: var(--gray-100); display: flex; align-items: center; justify-content: center; font-size: 9px; color: var(--gray-600); flex-shrink: 0; }
+.sr-lbl { font-size: 10px; color: var(--gray-600); }
+.sr-sc { margin-left: auto; font-size: 10px; color: var(--gray-400); }
+.main-col { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+.dtop { padding: 10px 14px; border-bottom: 0.5px solid var(--gray-200); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; }
+.dt-rlbl { font-size: 11px; color: var(--gray-600); font-family: system-ui; }
+.feed { flex: 1; overflow-y: auto; padding: 13px 14px; display: flex; flex-direction: column; }
+.input-zone { padding: 10px 14px; border-top: 0.5px solid var(--gray-200); flex-shrink: 0; }
+.iz-gr-bar { display: flex; gap: 7px; align-items: center; }
+.iz-gr-av { width: 26px; height: 26px; border-radius: 50%; background: var(--red-dark); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 500; flex-shrink: 0; font-family: system-ui; }
+.iz-input { flex: 1; padding: 8px 11px; border: 0.5px solid var(--red-mid); border-radius: 7px; font-size: 12px; outline: none; font-family: system-ui; background: var(--red-light); color: var(--red-text); }
+.iz-input::placeholder { color: #e57373; }
+.iz-input:focus { border-color: var(--red-dark); }
+.iz-send { padding: 8px 14px; background: var(--red-dark); color: var(--white); border: none; border-radius: 7px; font-size: 12px; cursor: pointer; font-family: system-ui; }
+.iz-hint { font-size: 11px; color: var(--gray-400); display: flex; align-items: center; gap: 5px; font-family: system-ui; }
+
+/* score summary + results */
+.score-summary { display: grid; grid-template-columns: 1fr 40px 1fr; align-items: center; padding: 18px 22px 14px; }
+.ss { padding: 14px 16px; background: var(--gray-50); border: 0.5px solid var(--gray-200); border-radius: 10px; }
+.ss.a { border-top: 3px solid var(--blue-mid); }
+.ss.b { border-top: 3px solid var(--green-mid); text-align: right; }
+.ss.winner.a { border-top-color: var(--blue-dark); box-shadow: 0 0 0 1.5px var(--blue-mid); background: var(--white); }
+.ss.winner.b { border-top-color: var(--green-dark); box-shadow: 0 0 0 1.5px var(--green-mid); background: var(--white); }
+.ss-na { font-size: 11px; color: var(--blue-dark); font-weight: 500; margin-bottom: 3px; font-family: system-ui; }
+.ss-nb { font-size: 11px; color: var(--green-dark); font-weight: 500; margin-bottom: 3px; font-family: system-ui; }
+.ss-tot-a { font-size: 32px; font-weight: 500; color: var(--blue-dark); line-height: 1; }
+.ss-tot-b { font-size: 32px; font-weight: 500; color: var(--green-dark); line-height: 1; }
+.ss-det { font-size: 10px; color: var(--gray-400); margin-top: 3px; font-family: system-ui; }
+.ss-sep { display: flex; align-items: center; justify-content: center; font-size: 12px; color: var(--gray-300); font-family: system-ui; }
+.wb { font-size: 9px; padding: 2px 8px; border-radius: 10px; display: inline-block; margin-bottom: 5px; font-family: system-ui; }
+.wb-b { background: var(--green-light); color: var(--green-dark); border: 0.5px solid var(--green-mid); }
+.wb-a { background: var(--blue-light); color: var(--blue-dark); border: 0.5px solid var(--blue-mid); }
+.rb-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding: 0 22px 14px; }
+.rbc { background: var(--gray-50); border: 0.5px solid var(--gray-200); border-radius: 8px; padding: 9px 11px; }
+.rbc-r { font-size: 10px; color: var(--gray-400); margin-bottom: 6px; font-family: system-ui; }
+.rbc-sc { display: flex; align-items: center; justify-content: space-between; }
+.rbc-a { font-size: 15px; font-weight: 500; color: var(--blue-dark); }
+.rbc-b { font-size: 15px; font-weight: 500; color: var(--green-dark); }
+.rbc-sep { font-size: 11px; color: var(--gray-300); font-family: system-ui; }
+.rbc-w { font-size: 10px; margin-top: 4px; font-family: system-ui; }
+.rbc-bar { height: 3px; background: var(--gray-100); border-radius: 2px; margin-top: 7px; display: flex; overflow: hidden; }
+.rbc-fa { height: 100%; background: var(--blue-mid); }
+.rbc-fb { height: 100%; background: var(--green-mid); }
+.verdict-section { padding: 0 22px 14px; }
+.vc { border-top: 2px solid var(--black); border: 0.5px solid var(--gray-300); border-top: 2px solid var(--black); border-radius: 0 0 10px 10px; overflow: hidden; }
+.vc-hd { padding: 12px 16px; border-bottom: 0.5px solid var(--gray-200); display: flex; justify-content: space-between; font-family: system-ui; }
+.vc-t { font-size: 10px; font-weight: 500; color: var(--black); letter-spacing: .09em; }
+.vc-s { font-size: 10px; color: var(--gray-400); }
+.vc-body { padding: 16px; }
+.vtext { font-size: 13px; line-height: 1.85; color: #333; padding-bottom: 14px; border-bottom: 0.5px solid var(--gray-100); margin-bottom: 12px; }
+.vw { font-size: 14px; font-weight: 500; color: var(--black); margin-bottom: 8px; font-family: system-ui; }
+.qa { color: var(--blue-dark); }
+.qb { color: var(--green-dark); }
+.awards { display: flex; gap: 7px; }
+.aw { flex: 1; background: var(--gray-50); border: 0.5px solid var(--gray-200); border-radius: 8px; padding: 9px; text-align: center; }
+.aw-ico { font-size: 16px; margin-bottom: 3px; }
+.aw-lbl { font-size: 10px; color: var(--gray-400); margin-bottom: 2px; font-family: system-ui; }
+.aw-na { font-size: 11px; font-weight: 500; color: var(--blue-dark); font-family: system-ui; }
+.aw-nb { font-size: 11px; font-weight: 500; color: var(--green-dark); font-family: system-ui; }
+.aw-ng { font-size: 11px; font-weight: 500; color: var(--red-dark); font-family: system-ui; }
+.aw-d { font-size: 10px; color: var(--gray-400); margin-top: 2px; font-family: system-ui; }
+.gr-ep { display: flex; gap: 9px; align-items: flex-start; padding: 13px 16px; background: var(--red-light); border-top: 0.5px solid #ffebee; }
+.gr-ep-sn { font-size: 10px; color: var(--red-dark); margin-bottom: 3px; font-family: system-ui; }
+.gr-ep-t { font-size: 12px; color: var(--red-text); line-height: 1.65; font-family: system-ui; }
+.rand-ep { display: flex; gap: 9px; align-items: flex-start; padding: 13px 16px; background: var(--yellow-light); border-top: 0.5px solid var(--yellow-mid); }
+.rand-ep-sn { font-size: 10px; color: var(--yellow-dark); margin-bottom: 3px; font-family: system-ui; }
+.rand-ep-t { font-size: 12px; color: var(--yellow-text); line-height: 1.65; font-family: system-ui; }
+.end-acts { padding: 14px 22px; border-top: 0.5px solid var(--gray-200); display: flex; gap: 8px; }
+.blink { width: 6px; height: 6px; border-radius: 50%; background: var(--black); animation: bk 1.2s infinite; display: inline-block; flex-shrink: 0; }
+@keyframes bk { 0%,100%{opacity:1} 50%{opacity:.1} }
+.pad { padding: 22px; }
+.bottom-bar { padding: 14px 22px; border-top: 0.5px solid var(--gray-200); display: flex; gap: 8px; justify-content: flex-end; }
+.key-section { background: var(--gray-50); border: 0.5px solid var(--gray-200); border-radius: 8px; padding: 13px; margin-bottom: 16px; }
+.key-row { display: flex; gap: 8px; align-items: center; }
+.key-row input { flex: 1; font-family: monospace; }
+.key-status { font-size: 11px; padding: 4px 10px; border-radius: 20px; white-space: nowrap; font-family: system-ui; }
+.ks-empty { color: var(--gray-400); background: var(--white); border: 0.5px solid var(--gray-200); }
+.ks-ok { color: var(--green-dark); background: var(--green-light); border: 0.5px solid var(--green-mid); }
+.key-hint { font-size: 11px; color: var(--gray-400); margin-top: 6px; font-family: system-ui; }
+.song-confirm-box { background: var(--gray-50); border: 0.5px solid var(--gray-200); border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; display: none; }
+.err-box { background: #fff5f5; border: 0.5px solid #ffcdd2; border-radius: 8px; padding: 12px 14px; margin-top: 10px; display: none; }
+.err-title { font-size: 12px; color: #c62828; font-weight: 500; margin-bottom: 4px; font-family: system-ui; }
+.err-msg { font-size: 12px; color: #e57373; line-height: 1.5; font-family: monospace; word-break: break-all; }
+.delib-log { display: flex; flex-direction: column; gap: 11px; margin-bottom: 18px; }
+.drow { display: flex; gap: 9px; align-items: flex-start; opacity: 0; transform: translateY(5px); transition: all .4s; }
+.drow.show { opacity: 1; transform: none; }
+.verdict-box { background: var(--gray-50); border: 0.5px solid var(--gray-300); border-radius: 10px; padding: 14px 16px; opacity: 0; transition: opacity .5s; margin-bottom: 14px; }
+.verdict-box.show { opacity: 1; }
+.vb-label { font-size: 10px; color: var(--gray-400); letter-spacing: .08em; margin-bottom: 9px; font-family: system-ui; }
+.vb-teams { display: flex; gap: 8px; align-items: center; }
+.vt { flex: 1; background: var(--white); border: 0.5px solid var(--gray-200); border-radius: 8px; padding: 10px; text-align: center; }
+.vt-sep { font-size: 11px; color: var(--gray-300); font-family: system-ui; }
+/* song analysis lines */
+.analysis-line { font-size: 12px; color: var(--gray-600); font-family: system-ui; padding: 3px 0; opacity: 0; transform: translateY(4px); transition: all .35s; line-height: 1.5; }
+.analysis-line.show { opacity: 1; transform: none; }
+.analysis-line.highlight { color: var(--black); font-weight: 500; border-left: 2px solid var(--black); padding-left: 8px; margin-top: 4px; }
+/* judge card */
+.judge-card { border-top: 2px solid var(--black); border-left: 0.5px solid var(--gray-300); border-right: 0.5px solid var(--gray-300); border-bottom: 0.5px solid var(--gray-300); border-radius: 0 0 10px 10px; padding: 14px 16px; margin-bottom: 13px; background: var(--gray-50); }
+.jc-hd { display: flex; justify-content: space-between; align-items: center; margin-bottom: 11px; }
+.jc-title { font-size: 10px; font-weight: 500; color: var(--black); letter-spacing: .09em; font-family: system-ui; }
+.jc-round { font-size: 10px; color: var(--gray-400); font-family: system-ui; }
+.jscores { display: flex; gap: 8px; margin-bottom: 10px; }
+.jscore { flex: 1; background: var(--white); border: 0.5px solid var(--gray-200); border-radius: 8px; padding: 8px; text-align: center; }
+.jscore-who-a { font-size: 10px; color: var(--blue-dark); margin-bottom: 3px; font-family: system-ui; }
+.jscore-who-b { font-size: 10px; color: var(--green-dark); margin-bottom: 3px; font-family: system-ui; }
+.jscore-n { font-size: 20px; font-weight: 500; color: var(--black); line-height: 1; }
+.jscore-d { font-size: 10px; color: var(--gray-400); margin-top: 2px; font-family: system-ui; }
+.jc-text { font-size: 11px; color: #555; line-height: 1.65; padding-top: 10px; border-top: 0.5px solid var(--gray-200); font-family: system-ui; }
+.jc-hl { font-weight: 500; color: var(--black); }
+.jc-warn { margin-top: 8px; font-size: 11px; color: var(--black); padding: 6px 10px; border-left: 2px solid var(--black); background: var(--gray-100); border-radius: 0 4px 4px 0; font-family: system-ui; }
+/* summoned guest */
+.summon-banner { display: flex; gap: 9px; align-items: flex-start; margin-bottom: 13px; padding: 10px 12px; background: var(--purple-light); border: 1px solid var(--purple-mid); border-radius: 10px; }
+.summon-av { width: 28px; height: 28px; border-radius: 50%; background: var(--purple-dark); color: var(--white); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; flex-shrink: 0; font-family: system-ui; }
+.summon-name { font-size: 10px; color: var(--purple-dark); margin-bottom: 3px; font-family: system-ui; font-weight: 500; }
+.summon-text { font-size: 13px; color: var(--purple-dark); line-height: 1.6; font-family: system-ui; }
+/* Gr input hint */
+.gr-hint { font-size: 10px; color: var(--red-text); font-family: system-ui; margin-bottom: 5px; display: flex; gap: 10px; flex-wrap: wrap; }
+.gr-hint span { cursor: pointer; padding: 2px 7px; border: 0.5px solid var(--red-mid); border-radius: 10px; background: var(--red-light); transition: background .1s; }
+.gr-hint span:hover { background: #ffcdd2; }
+</style>
+</head>
+<body>
+<div class="container">
+<div class="card">
+
+<div class="progress" id="prog">
+  <div class="ps"><div class="ps-dot cur" id="pd1">1</div><div class="ps-label cur" id="pl1">选角</div></div>
+  <div class="ps-line" id="pline1"></div>
+  <div class="ps"><div class="ps-dot" id="pd2">2</div><div class="ps-label" id="pl2">选歌</div></div>
+  <div class="ps-line" id="pline2"></div>
+  <div class="ps"><div class="ps-dot" id="pd3">3</div><div class="ps-label" id="pl3">议论期</div></div>
+  <div class="ps-line" id="pline3"></div>
+  <div class="ps"><div class="ps-dot" id="pd4">4</div><div class="ps-label" id="pl4">辩论场</div></div>
+  <div class="ps-line" id="pline4"></div>
+  <div class="ps"><div class="ps-dot" id="pd5">5</div><div class="ps-label" id="pl5">结局</div></div>
+</div>
+
+<!-- S1 选角 -->
+<div class="screen active" id="s1">
+  <div class="pad">
+    <div style="text-align:center;padding-bottom:20px;border-bottom:0.5px solid var(--gray-100);margin-bottom:20px">
+      <div class="eyebrow">CROSS · TIME · DEBATE</div>
+      <div class="title">跨时空锐评</div>
+      <div class="subtitle">你是 Gr 小姐——坐在观众席，随时可以搅局</div>
+    </div>
+    <div class="key-section">
+      <div class="field-label">DEEPSEEK API KEY</div>
+      <div class="key-row">
+        <input type="password" id="api-key" placeholder="sk-xxxxxxxxxxxxxxxx" oninput="onKeyInput()"/>
+        <div class="key-status ks-empty" id="key-status">未填写</div>
+      </div>
+      <div class="key-hint">Key 仅本地使用，不会上传任何服务器</div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="field-label" style="margin:0">选择上场音乐家 · 各选一位</div>
+      <div style="font-size:10px;color:var(--gray-400);font-family:system-ui">蓝色=A方 · 绿色=B方</div>
+    </div>
+    <div class="pool-grid" id="pool-grid"></div>
+
+    <!-- 自定义音乐家 -->
+    <div style="font-size:10px;color:var(--gray-400);letter-spacing:.07em;margin-bottom:8px;font-family:system-ui">或者自定义音乐家（AI提取人设）</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+      <div id="custom-a-slot" class="custom-slot" onclick="openCustom('a')">
+        <div class="custom-slot-lbl">＋ 自定义 A 方</div>
+      </div>
+      <div id="custom-b-slot" class="custom-slot" onclick="openCustom('b')">
+        <div class="custom-slot-lbl">＋ 自定义 B 方</div>
+      </div>
+    </div>
+
+    <!-- Custom modal inline -->
+    <div id="custom-panel" style="display:none;margin-bottom:14px">
+      <div class="custom-section">
+        <div class="custom-hd">
+          <span class="blink" style="background:var(--gray-400)"></span>
+          <span id="custom-panel-title">自定义音乐家</span>
+          <button class="btn-sm" style="margin-left:auto" onclick="closeCustom()">关闭</button>
+        </div>
+        <div class="custom-body">
+          <div class="field-label">输入姓名，AI 自动提取人设（2010年前去世的音乐家）</div>
+          <div style="display:flex;gap:8px;margin-bottom:12px">
+            <input type="text" id="custom-name-in" placeholder="例：帕瓦罗蒂、卡拉斯、迈克尔·杰克逊"/>
+            <button class="btn-sm" style="white-space:nowrap;padding:8px 14px" onclick="fetchPersona()">提取</button>
+          </div>
+          <div id="persona-fields" style="display:none">
+            <div class="persona-field">
+              <div class="persona-label">姓名 · 年代 · 国籍</div>
+              <div class="persona-val" id="pf-era" contenteditable="true"></div>
+            </div>
+            <div class="persona-field">
+              <div class="persona-label">张力标签（他/她是谁，一句极端的话）</div>
+              <div class="persona-val" id="pf-tension" contenteditable="true"></div>
+            </div>
+            <div class="persona-field">
+              <div class="persona-label">燃烧材料（最震撼的人生事件或言论）</div>
+              <div class="persona-val" id="pf-quote" contenteditable="true"></div>
+            </div>
+            <div class="persona-field">
+              <div class="persona-label">偏执信念（他/她对音乐最极端的核心主张）</div>
+              <div class="persona-val" id="pf-belief" contenteditable="true"></div>
+            </div>
+            <div class="persona-field">
+              <div class="persona-label">历史创伤（被触碰时会爆发的伤口）</div>
+              <div class="persona-val" id="pf-wound" contenteditable="true"></div>
+            </div>
+            <div class="persona-field">
+              <div class="persona-label">出场白（第一句话，不是自我介绍）</div>
+              <div class="persona-val" id="pf-opening" contenteditable="true"></div>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:4px">
+              <button class="btn-ghost" onclick="closeCustom()">取消</button>
+              <button class="btn-primary" onclick="confirmCustom()" style="margin-left:auto">确认加入 →</button>
+            </div>
+          </div>
+          <div id="persona-loading" style="display:none;font-size:12px;color:var(--gray-400);font-family:system-ui;padding:8px 0;display:flex;align-items:center;gap:7px"><span class="blink"></span>正在提取人设…</div>
+          <div id="persona-err" style="display:none" class="err-box"><div class="err-title">提取失败</div><div class="err-msg" id="persona-err-msg"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 已选展示 -->
+    <div class="sel-display" id="sel-display">
+      <div class="sd-card sd-a" id="sd-a">
+        <div class="sd-side sd-side-a">A 方 · 未选择</div>
+        <div style="font-size:12px;color:var(--blue-dark);font-family:system-ui;margin-top:4px">从上方列表点击选择</div>
+      </div>
+      <div class="sd-card sd-b" id="sd-b">
+        <div class="sd-side sd-side-b">B 方 · 未选择</div>
+        <div style="font-size:12px;color:var(--green-dark);font-family:system-ui;margin-top:4px">从上方列表点击选择</div>
+      </div>
+    </div>
+
+    <div id="s1-err" class="err-box"><div class="err-title">错误</div><div class="err-msg" id="s1-err-msg"></div></div>
+  </div>
+  <div class="bottom-bar">
+    <button class="btn-primary" id="s1-next" onclick="goTo(2)" disabled>下一步：选歌 →</button>
+  </div>
+</div>
+
+<!-- S2 选歌 -->
+<div class="screen" id="s2">
+  <div class="pad">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:20px;padding-bottom:16px;border-bottom:0.5px solid var(--gray-100)">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">♪</div>
+      <div>
+        <div style="font-size:15px;font-weight:500">输入一首歌，让他们来评</div>
+        <div style="font-size:12px;color:var(--gray-400);margin-top:2px;font-family:system-ui">AI 会逐步分析这首歌的灵魂所在</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input type="text" id="song-in" placeholder="歌曲名称，例如：波西米亚狂想曲 / Yesterday / 稻香" onkeydown="if(event.key==='Enter')confirmSong()"/>
+      <button class="btn-sm" onclick="confirmSong()" style="white-space:nowrap;padding:8px 14px">确认</button>
+    </div>
+
+    <div id="sc-box" style="display:none;margin-bottom:14px">
+      <div style="font-size:15px;font-weight:500;margin-bottom:3px" id="sc-sname"></div>
+      <div style="font-size:11px;color:var(--gray-400);margin-bottom:10px;font-family:system-ui" id="sc-smeta">分析中…</div>
+      <div id="sc-lines" style="display:flex;flex-direction:column;gap:2px;margin-bottom:10px"></div>
+      <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap" id="sc-stags"></div>
+    </div>
+    <div id="s2-err" class="err-box"><div class="err-title">分析失败</div><div class="err-msg" id="s2-err-msg"></div></div>
+  </div>
+  <div class="bottom-bar">
+    <button class="btn-ghost" onclick="goTo(1)">← 返回</button>
+    <button class="btn-primary" id="s2-next" onclick="goTo(3)" disabled>进入议论期 →</button>
+  </div>
+</div>
+
+<!-- S3 议论期 -->
+<div class="screen" id="s3">
+  <div class="pad">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;padding-bottom:14px;border-bottom:0.5px solid var(--gray-100)">
+      <div style="width:36px;height:36px;border-radius:8px;background:var(--gray-100);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">♪</div>
+      <div>
+        <div style="font-size:14px;font-weight:500;color:var(--black)" id="s3-song">—</div>
+        <div style="font-size:11px;color:var(--gray-400);margin-top:1px;font-family:system-ui" id="s3-meta">—</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:var(--gray-400);letter-spacing:.08em;margin-bottom:14px;display:flex;align-items:center;gap:7px;font-family:system-ui">
+      <span class="blink"></span>音乐家正在研究这首歌，形成各自立场……
+    </div>
+    <div class="delib-log">
+      <div class="drow" id="d0"><div class="av av-a" style="width:26px;height:26px;font-size:9px;margin-top:1px" id="d0-av">M</div><div style="flex:1"><div class="sender-a" id="d0-name">A</div><div class="bubble bub-a" id="d0-text">正在思考…</div></div></div>
+      <div class="drow" id="d1"><div class="av av-b" style="width:26px;height:26px;font-size:9px;margin-top:1px" id="d1-av">L</div><div style="flex:1"><div class="sender-b" id="d1-name">B</div><div class="bubble bub-b" id="d1-text">正在思考…</div></div></div>
+      <div class="drow" id="d2"><div class="av av-a" style="width:26px;height:26px;font-size:9px;margin-top:1px" id="d2-av">M</div><div style="flex:1"><div class="sender-a" id="d2-name">A</div><div class="bubble bub-a" id="d2-text">正在思考…</div></div></div>
+      <div class="drow" id="d3"><div class="av av-b" style="width:26px;height:26px;font-size:9px;margin-top:1px" id="d3-av">L</div><div style="flex:1"><div class="sender-b" id="d3-name">B</div><div class="bubble bub-b" id="d3-text">正在思考…</div></div></div>
+    </div>
+    <div class="verdict-box" id="verdict-box">
+      <div class="vb-label">立场确认</div>
+      <div class="vb-teams">
+        <div class="vt"><div style="font-size:11px;color:var(--blue-dark);font-weight:500;margin-bottom:3px;font-family:system-ui" id="v-name-a">A</div><div style="font-size:13px;font-weight:500;color:var(--black)" id="v-stance-a">反对此曲</div></div>
+        <div class="vt-sep">vs</div>
+        <div class="vt"><div style="font-size:11px;color:var(--green-dark);font-weight:500;margin-bottom:3px;font-family:system-ui" id="v-name-b">B</div><div style="font-size:13px;font-weight:500;color:var(--black)" id="v-stance-b">支持此曲</div></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;justify-content:flex-end;opacity:0;transition:opacity .4s;pointer-events:none" id="delib-cta">
+      <button class="btn-ghost" onclick="goTo(2)">← 返回</button>
+      <button class="btn-primary" onclick="goTo(4)">进入辩论场 →</button>
+    </div>
+  </div>
+</div>
+
+<!-- S4 辩论场 -->
+<div class="screen" id="s4">
+  <div class="debate-wrap">
+    <div class="sidebar">
+      <div class="sb-song">
+        <div class="sb-lbl">本局歌曲</div>
+        <div class="sb-sname" id="sb-song">—</div>
+        <div class="sb-smeta" id="sb-meta">—</div>
+      </div>
+      <!-- win rate bar -->
+      <div class="wr-bar-wrap">
+        <div class="wr-labels"><span class="wr-la" id="wr-la">A方</span><span style="font-size:10px;color:var(--gray-400);font-family:system-ui">实时胜率</span><span class="wr-lb" id="wr-lb">B方</span></div>
+        <div class="wr-bar">
+          <div class="wr-fill-a" id="wr-fill-a" style="width:50%"></div>
+          <div class="wr-fill-b" id="wr-fill-b" style="width:50%"></div>
+        </div>
+        <div class="wr-nums"><span class="wr-na" id="wr-na">50%</span><span class="wr-nb" id="wr-nb">50%</span></div>
+        <div class="wr-comment" id="wr-comment">—</div>
+      </div>
+      <div class="sb-cast">
+        <div class="sb-lbl" style="margin-bottom:8px">本局阵容</div>
+        <div class="sb-p hi">
+          <div class="av av-a" style="width:24px;height:24px;font-size:9px" id="sb-av-a">A</div>
+          <div style="flex:1;min-width:0"><div class="sb-pname-a" id="sb-na">A方</div><div class="sb-pera" id="sb-era-a">—</div></div>
+          <div class="sp-pill sp-a" id="sb-stance-a">反对</div>
+        </div>
+        <div class="sb-p">
+          <div class="av av-b" style="width:24px;height:24px;font-size:9px" id="sb-av-b">B</div>
+          <div style="flex:1;min-width:0"><div class="sb-pname-b" id="sb-nb">B方</div><div class="sb-pera" id="sb-era-b">—</div></div>
+          <div class="sp-pill sp-b" id="sb-stance-b">支持</div>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-p">
+          <div class="av av-gr" style="width:24px;height:24px;font-size:9px">Gr</div>
+          <div style="flex:1;min-width:0"><div class="sb-pname-gr">Gr 小姐（你）</div><div class="sb-pera">观众席·随时可以说话</div></div>
+        </div>
+        <div class="sb-div"></div>
+        <div class="sb-p" id="sb-rand-row" style="display:none">
+          <div class="av av-rand" style="width:24px;height:24px;font-size:9px" id="sb-rand-av">?</div>
+          <div style="flex:1;min-width:0"><div class="sb-pname-rand" id="sb-rand-name">随机观众</div><div class="sb-pera">观众席</div></div>
+        </div>
+        <div class="sb-p" id="sb-summon-row" style="display:none">
+          <div class="summon-av" style="width:24px;height:24px;font-size:9px" id="sb-summon-av">?</div>
+          <div style="flex:1;min-width:0"><div style="font-size:11px;font-weight:500;color:var(--purple-dark);font-family:system-ui" id="sb-summon-name">被召唤者</div><div class="sb-pera">裁判召唤</div></div>
+        </div>
+      </div>
+      <div class="sb-rounds">
+        <div class="sb-round cur" id="sr1"><div class="sr-n">1</div><div class="sr-lbl">音乐本身</div><div class="sr-sc" id="sc1">—</div></div>
+        <div class="sb-round" id="sr2"><div class="sr-n">2</div><div class="sr-lbl">人与歌</div><div class="sr-sc" id="sc2">—</div></div>
+        <div class="sb-round" id="sr3"><div class="sr-n">3</div><div class="sr-lbl">终极攻击</div><div class="sr-sc" id="sc3">—</div></div>
+      </div>
+    </div>
+    <div class="main-col">
+      <div class="dtop">
+        <div class="dt-rlbl" id="round-label">第一轮 · 音乐本身</div>
+        <div style="font-size:11px;color:var(--gray-400);font-family:system-ui" id="turn-counter">发言 1/5</div>
+      </div>
+      <div class="feed" id="feed"></div>
+      <div class="input-zone" id="input-zone">
+        <div class="iz-hint"><span class="blink"></span>准备开始…</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 结局 -->
+<div class="screen" id="s5">
+  <div style="padding:16px 22px 10px;border-bottom:0.5px solid var(--gray-100);display:flex;align-items:center;gap:7px">
+    <span class="blink"></span>
+    <span style="font-size:10px;color:var(--gray-400);letter-spacing:.1em;font-family:system-ui">终极裁判宣判中</span>
+  </div>
+  <div class="score-summary">
+    <div class="ss a" id="ss-a"><div class="ss-na" id="end-na">A</div><div class="ss-tot-a" id="end-tot-a">0</div><div class="ss-det" id="end-det-a">—</div></div>
+    <div class="ss-sep">vs</div>
+    <div class="ss b" id="ss-b"><div style="text-align:right"><div class="wb wb-b" id="winner-badge">获胜</div></div><div class="ss-nb" id="end-nb">B</div><div class="ss-tot-b" id="end-tot-b">0</div><div class="ss-det" id="end-det-b">—</div></div>
+  </div>
+  <div class="rb-row">
+    <div class="rbc"><div class="rbc-r">第一轮·音乐本身</div><div class="rbc-sc"><div class="rbc-a" id="rb1a">0</div><div class="rbc-sep">·</div><div class="rbc-b" id="rb1b">0</div></div><div class="rbc-w" id="rbw1">—</div><div class="rbc-bar"><div class="rbc-fa" id="rbba1" style="width:50%"></div><div class="rbc-fb" id="rbbb1" style="width:50%"></div></div></div>
+    <div class="rbc"><div class="rbc-r">第二轮·人与歌</div><div class="rbc-sc"><div class="rbc-a" id="rb2a">0</div><div class="rbc-sep">·</div><div class="rbc-b" id="rb2b">0</div></div><div class="rbc-w" id="rbw2">—</div><div class="rbc-bar"><div class="rbc-fa" id="rbba2" style="width:50%"></div><div class="rbc-fb" id="rbbb2" style="width:50%"></div></div></div>
+    <div class="rbc"><div class="rbc-r">第三轮·终极攻击</div><div class="rbc-sc"><div class="rbc-a" id="rb3a">0</div><div class="rbc-sep">·</div><div class="rbc-b" id="rb3b">0</div></div><div class="rbc-w" id="rbw3">—</div><div class="rbc-bar"><div class="rbc-fa" id="rbba3" style="width:50%"></div><div class="rbc-fb" id="rbbb3" style="width:50%"></div></div></div>
+  </div>
+  <div class="verdict-section">
+    <div class="vc">
+      <div class="vc-hd"><div class="vc-t">终极裁判 · 最终判词</div><div class="vc-s">三轮结束后宣判</div></div>
+      <div class="vc-body">
+        <div class="vtext" id="end-verdict-text"><div class="vw">辩论结束，正在生成判词……</div></div>
+        <div class="awards">
+          <div class="aw"><div class="aw-ico">◆</div><div class="aw-lbl">最强单句</div><div class="aw-na" id="aw-best-who">—</div><div class="aw-d" id="aw-best-quote">—</div></div>
+          <div class="aw"><div class="aw-ico">◇</div><div class="aw-lbl">最佳回应</div><div class="aw-nb" id="aw-resp-who">—</div><div class="aw-d" id="aw-resp-desc">—</div></div>
+          <div class="aw"><div class="aw-ico">○</div><div class="aw-lbl">最刁钻问题</div><div class="aw-ng" id="aw-q-who">—</div><div class="aw-d" id="aw-q-desc">—</div></div>
+        </div>
+      </div>
+      <div class="gr-ep">
+        <div class="av av-gr" style="width:26px;height:26px;font-size:9px;flex-shrink:0;margin-top:1px">Gr</div>
+        <div style="flex:1"><div class="gr-ep-sn">Gr 小姐 <span class="etag etag-gr">终局发言</span></div><div class="gr-ep-t" id="gr-epilogue">——</div></div>
+      </div>
+      <div class="rand-ep" id="rand-ep" style="display:none">
+        <div class="av av-rand" style="width:26px;height:26px;font-size:9px;flex-shrink:0;margin-top:1px" id="rand-ep-av">?</div>
+        <div style="flex:1"><div class="rand-ep-sn"><span id="rand-ep-name">随机观众</span> <span class="etag etag-rand">离场前</span></div><div class="rand-ep-t" id="rand-epilogue">——</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="end-acts">
+    <button class="btn-ghost" onclick="goTo(4)">← 辩论场</button>
+    <button class="btn-primary" style="margin-left:auto" onclick="restart()">新的一局 ↗</button>
+  </div>
+</div>
+
+</div><!-- /card -->
+</div><!-- /container -->
+
+<script>
+const DEEPSEEK_API = 'https://api.deepseek.com/chat/completions';
+
+// ── STATE ──
+const STATE = {
+  apiKey: '',
+  song: null,
+  musicianA: null,
+  musicianB: null,
+  stances: { a: '反对', b: '支持' },
+  transcript: [],
+  scores: { a: [0,0,0], b: [0,0,0] },
+  winRate: { a: 50, b: 50 },
+  randAudience: null,
+  summonedGuest: null,
+  grTranscript: [],
+  _randShown: false,
+  _customSide: null,
+};
+
+// ── POOL ──
+const POOL = [
+  // 天才与自毁
+  {
+    name:'沃尔夫冈·莫扎特', era:'1756–1791·奥地利', initial:'莫',
+    tension:'天才×穷死',
+    quote:'「我一口气就能把整部交响乐写在脑子里，你们花一辈子也写不出来一个小节。」',
+    belief:'任何不能在脑子里一次性听完的作品都是残次品。',
+    wound:'写了一千多首，死的时候连棺材钱都没有，被扔进乱葬岗。',
+    attack:'他的音乐才华和他的人生管理能力一样差。',
+    opening:'你们选了这首歌？有意思——我来告诉你们它哪里还差得远。'
+  },
+  {
+    name:'科特·柯本', era:'1967–1994·美国', initial:'科',
+    tension:'天才×自毁',
+    quote:'「我宁愿燃烧殆尽，也不愿意慢慢腐烂。」',
+    belief:'真正的音乐只能来自真正的痛苦，其他都是表演。',
+    wound:'成了他最痛恨的那种文化符号，然后选择离开。',
+    attack:'他/她的音乐是精心包装出来的，我能闻到商业的气味。',
+    opening:'……（沉默了几秒）好，说吧。'
+  },
+  {
+    name:'艾米·怀恩豪斯', era:'1983–2011·英国', initial:'艾',
+    tension:'天才×酒精',
+    quote:'「我不去戒酒所，不去，不去，不去。」',
+    belief:'只有彻底暴露自己才能写出真正的歌，克制是懦弱。',
+    wound:'全世界都在看她的演出时，她其实快撑不住了。',
+    attack:'这首歌太安全了，没有一滴血。',
+    opening:'这首歌——它让我想起了那段我不想提的时光。'
+  },
+  {
+    name:'吉米·亨德里克斯', era:'1942–1970·美国', initial:'吉',
+    tension:'天才×药物',
+    quote:'「我用吉他说出了任何语言都无法表达的东西。」',
+    belief:'规则是留给没有天赋的人的，天才只有本能。',
+    wound:'三年改变了整个摇滚史，27岁窒息而死，没人来得及说再见。',
+    attack:'技术再好，没有灵魂就是一具尸体。',
+    opening:'先别说话——你们听见这首歌里的那个声音了吗？'
+  },
+  {
+    name:'罗伯特·约翰逊', era:'1911–1938·美国', initial:'约',
+    tension:'传说×神秘死亡',
+    quote:'「我在十字路口卖掉了灵魂，换来了这把吉他的秘密。」',
+    belief:'蓝调不是风格，是一个人被命运碾压之后剩下的声音。',
+    wound:'27岁死亡，死因至今成谜，留下29首录音改变了整个音乐史。',
+    attack:'你/她的痛苦是可以被消费的，我的痛苦是真实的。',
+    opening:'（低头）……你们有没有在深夜一个人听过这种感觉？'
+  },
+  // 革命者
+  {
+    name:'约翰·列侬', era:'1940–1980·英国', initial:'列',
+    tension:'革命者×被刺杀',
+    quote:'「想象没有国家，你可能会说我是个梦想家，但我不是唯一一个。」',
+    belief:'音乐是能改变这个世界的最后武器，不利用它就是犯罪。',
+    wound:'因为说他们比耶稣更受欢迎就被仇恨，最后被歌迷在家门口枪杀。',
+    attack:'这首歌有没有立场？没有立场的音乐是在为现状辩护。',
+    opening:'这首歌是什么时候写的？它的时代背景决定了它有没有意义。'
+  },
+  {
+    name:'鲍勃·马利', era:'1945–1981·牙买加', initial:'鲍',
+    tension:'革命者×殖民对抗',
+    quote:'「解放你的思想，其余的自然会跟上。」',
+    belief:'音乐是受压迫者唯一的武器，娱乐是麻药。',
+    wound:'被政治势力追杀，在演唱会前两天遭遇暗杀未遂，两天后照常上台。',
+    attack:'这首歌在帮谁说话？音乐没有立场就是在帮压迫者。',
+    opening:'这首歌——它的根扎在哪里？'
+  },
+  {
+    name:'伍迪·格思里', era:'1912–1967·美国', initial:'伍',
+    tension:'民谣之父×斗争一生',
+    quote:'「这片土地是你的土地，这片土地是我的土地。」',
+    belief:'歌曲必须为穷人说话，否则就是在粉饰太平。',
+    wound:'患渐冻症十五年，无法再演奏的日子里还在写词。',
+    attack:'这首歌是给谁听的？如果只是给有钱人消遣，不值一分钱。',
+    opening:'先告诉我——写这首歌的人，他/她了解真正的苦日子吗？'
+  },
+  // 极端完美主义者
+  {
+    name:'路德维希·贝多芬', era:'1770–1827·德国', initial:'贝',
+    tension:'完美主义×失聪',
+    quote:'「我要扼住命运的咽喉，它绝不会使我完全屈服。」',
+    belief:'音乐是人类意志对抗命运的最后阵地，妥协就是死亡。',
+    wound:'失聪之后继续写出了最伟大的交响乐，没有人听见他需要什么。',
+    attack:'轻易就能被人喜欢的音乐，我不信任它。',
+    opening:'（停顿）……还不够。'
+  },
+  {
+    name:'格伦·古尔德', era:'1932–1982·加拿大', initial:'古',
+    tension:'完美主义×遁世',
+    quote:'「我退出舞台，是因为观众的存在让音乐变得不纯粹。」',
+    belief:'演出是对音乐的污染，唯一纯净的聆听是一个人在录音室里。',
+    wound:'32岁退出演奏会，此后只和录音机说话，拒绝一切现场。',
+    attack:'这首歌是为了被掌声淹没而写的，我能看穿这一点。',
+    opening:'这首歌——如果在空房间里播放，你还会这样评价它吗？'
+  },
+  {
+    name:'莫里斯·拉威尔', era:'1875–1937·法国', initial:'拉',
+    tension:'完美主义×强迫症',
+    quote:'「《波莱罗》只有一个缺陷——没有音乐，只有重复。但那就是重点。」',
+    belief:'每个细节都必须精确，一个多余的音符就是整首曲子的罪孽。',
+    wound:'晚年患脑部疾病，听得见音乐，但写不出来，用七年时间慢慢消失。',
+    attack:'这首歌里有太多不必要的东西，是懒，不是风格。',
+    opening:'让我先听一遍。（沉默）好，我有意见。'
+  },
+  // 传奇嗓音
+  {
+    name:'惠特妮·休斯顿', era:'1963–2012·美国', initial:'惠',
+    tension:'天籁嗓音×自我毁灭',
+    quote:'「我的嗓音是上帝给的，我用它做了很多不该做的事。」',
+    belief:'一个真正的歌手要用整个人去唱，不能留一点自我保护。',
+    wound:'全世界最好的嗓音，被她自己一点一点地烧掉了。',
+    attack:'这首歌的演唱者有没有真正交出自己？我能听出来。',
+    opening:'（深吸一口气）……好，让我告诉你们什么叫真正的声音。'
+  },
+  {
+    name:'玛利亚·卡拉斯', era:'1923–1977·希腊', initial:'卡',
+    tension:'歌剧女王×爱情毁灭',
+    quote:'「我为了爱情放弃了我的声音，那是我这辈子最大的错误。」',
+    belief:'歌剧不是唱歌，是用身体去死一次又复活一次。',
+    wound:'为了一个不值得的男人减肥、失声，孤独死在巴黎的公寓里。',
+    attack:'这首歌的情感是真实的还是表演出来的？这是有区别的。',
+    opening:'情感。这首歌有没有情感？先回答我这个。'
+  },
+  {
+    name:'埃迪特·琵雅芙', era:'1915–1963·法国', initial:'琵',
+    tension:'苦难即艺术',
+    quote:'「我不后悔任何事——Rien de rien.」',
+    belief:'没有真正受过苦的人，写不出真正的歌。',
+    wound:'出生在街头，失去过孩子，失去过爱人，用全部苦难换来了音乐。',
+    attack:'这首歌的作者了解真正的绝望吗？不了解的人没有资格写这个主题。',
+    opening:'（点上一支烟）好，我听完了。跟你们说说我的感受。'
+  },
+  {
+    name:'路易斯·阿姆斯特朗', era:'1901–1971·美国', initial:'路',
+    tension:'爵士乐化身×时代见证',
+    quote:'「如果你还在问爵士乐是什么，你永远不会明白。」',
+    belief:'音乐是让人活下去的理由，不是让人思考的工具。',
+    wound:'从新奥尔良贫民窟到全世界最受爱戴的音乐家，见证了美国最丑陋的那些年。',
+    attack:'这首歌让人高兴了吗？让人继续活下去了吗？这才是标准。',
+    opening:'（笑）……好家伙，这首歌让我想起了一件事。'
+  },
+  // 争议人物
+  {
+    name:'理查德·瓦格纳', era:'1813–1883·德国', initial:'瓦',
+    tension:'艺术伟大×道德败坏',
+    quote:'「艺术是一切，艺术家的人格不在艺术之内。」',
+    belief:'音乐是民族灵魂的最高表达，个人道德与艺术无关。',
+    wound:'写出了人类史上最宏大的音乐，同时是臭名昭著的反犹主义者。',
+    attack:'好音乐和好人是两件事，不要混淆。',
+    opening:'艺术不需要辩护。但我愿意告诉你们为什么这首歌是或不是艺术。'
+  },
+  {
+    name:'迈克尔·杰克逊', era:'1958–2009·美国', initial:'杰',
+    tension:'流行之王×永久争议',
+    quote:'「我只是想给这个世界一点爱，但这个世界从来不肯相信我。」',
+    belief:'舞台上的那一刻是唯一真实的，其他都是噪音。',
+    wound:'用整个人生成为传奇，同时背负着没有人知道真相的指控。',
+    attack:'你们评价这首歌，有没有撇开对它主人的偏见？',
+    opening:'我想先问一件事——你们是在评价这首歌，还是在评价我？'
+  },
+  {
+    name:'大卫·鲍伊', era:'1947–2016·英国', initial:'鲍',
+    tension:'变色龙×先锋',
+    quote:'「我不是同性恋，我只是对性别这件事感到无聊。」',
+    belief:'任何不愿意颠覆自己的艺术家都是懦夫。',
+    wound:'每一次人们以为看懂了他，他就变成另一个人，直到最后一张专辑。',
+    attack:'这首歌是在创造什么，还是在重复什么？重复是艺术的死亡。',
+    opening:'有意思。这首歌在问什么问题？'
+  },
+  {
+    name:'弗雷迪·墨丘利', era:'1946–1991·英国', initial:'弗',
+    tension:'舞台之神×燃烧殆尽',
+    quote:'「我每天都会死，但在舞台上，我是不朽的。」',
+    belief:'表演就是把自己烧光，留一点都是欺骗观众。',
+    wound:'知道自己快死了，还是把Live Aid演成了历史上最伟大的现场。',
+    attack:'这首歌的演绎者敢不敢在台上把自己完全烧光？',
+    opening:'（展开双臂）好——让我们谈谈什么叫真正的舞台。'
+  },
+];
+
+// ── UTILS ──
+function delay(ms){ return new Promise(r=>setTimeout(r,ms)); }
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function shortName(n){ return (n||'').split('·').pop().trim().split('·').pop().trim(); }
+function parseJ(raw){ return JSON.parse(raw.replace(/```json\n?/g,'').replace(/```\n?/g,'').trim()); }
+
+// ── API ──
+async function ask(system, user, temp=0.7, maxTok=800){
+  if(!STATE.apiKey) throw new Error('请先填写 DeepSeek API Key');
+  const res = await fetch(DEEPSEEK_API,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+STATE.apiKey},
+    body:JSON.stringify({model:'deepseek-chat',max_tokens:maxTok,temperature:temp,messages:[{role:'system',content:system},{role:'user',content:user}]})
+  });
+  if(!res.ok){ const t=await res.text(); throw new Error('API错误 '+res.status+': '+t.slice(0,200)); }
+  const d = await res.json();
+  return d.choices[0].message.content.trim();
+}
+
+// ── POOL RENDER ──
+function renderPool(){
+  const grid = document.getElementById('pool-grid');
+  grid.innerHTML = '';
+  POOL.forEach((m,i)=>{
+    const el = document.createElement('div');
+    el.className = 'pool-card';
+    el.id = 'pc-'+i;
+    el.innerHTML = `
+      <div class="pc-tension">${esc(m.tension)}</div>
+      <div class="pc-name">${esc(m.name)}</div>
+      <div class="pc-era">${esc(m.era)}</div>
+      <div class="pc-quote">${esc(m.quote)}</div>
+    `;
+    el.onclick = () => selectMusician(m, el);
+    grid.appendChild(el);
+  });
+}
+
+function selectMusician(m, el){
+  // determine side: if A empty or both full → A; if A filled → B
+  const hasA = !!STATE.musicianA;
+  const hasB = !!STATE.musicianB;
+  // if this card is already selected, deselect
+  if(el.classList.contains('sel-a')){ STATE.musicianA=null; el.classList.remove('sel-a'); updateSelDisplay(); checkS1Ready(); return; }
+  if(el.classList.contains('sel-b')){ STATE.musicianB=null; el.classList.remove('sel-b'); updateSelDisplay(); checkS1Ready(); return; }
+  // pick side
+  let side;
+  if(!hasA) side='a';
+  else if(!hasB) side='b';
+  else { // both filled, replace A
+    // clear existing A card
+    document.querySelectorAll('.pool-card.sel-a').forEach(c=>c.classList.remove('sel-a'));
+    document.querySelectorAll('.custom-slot').forEach(c=>{ if(c.dataset.side==='a') c.classList.remove('sel-a'); });
+    STATE.musicianA=null; side='a';
+  }
+  if(side==='a'){ STATE.musicianA={...m}; el.classList.add('sel-a'); }
+  else { STATE.musicianB={...m}; el.classList.add('sel-b'); }
+  // add badge
+  el.querySelectorAll('.pc-badge').forEach(b=>b.remove());
+  const badge=document.createElement('div');
+  badge.className='pc-badge pc-badge-'+side;
+  badge.textContent=side.toUpperCase()+'方';
+  el.appendChild(badge);
+  updateSelDisplay();
+  checkS1Ready();
+}
+
+function updateSelDisplay(){
+  const da=document.getElementById('sd-a');
+  const db=document.getElementById('sd-b');
+  if(STATE.musicianA){
+    const m=STATE.musicianA;
+    da.innerHTML=`<div class="sd-side sd-side-a">A 方</div><div class="sd-name-a">${esc(m.name)}</div><div class="sd-tension">${esc(m.tension)}</div><div class="sd-quote">${esc(m.quote)}</div>`;
+  } else {
+    da.innerHTML=`<div class="sd-side sd-side-a">A 方 · 未选择</div><div style="font-size:12px;color:var(--blue-dark);font-family:system-ui;margin-top:4px">从上方列表点击选择</div>`;
+  }
+  if(STATE.musicianB){
+    const m=STATE.musicianB;
+    db.innerHTML=`<div class="sd-side sd-side-b">B 方</div><div class="sd-name-b">${esc(m.name)}</div><div class="sd-tension">${esc(m.tension)}</div><div class="sd-quote">${esc(m.quote)}</div>`;
+  } else {
+    db.innerHTML=`<div class="sd-side sd-side-b">B 方 · 未选择</div><div style="font-size:12px;color:var(--green-dark);font-family:system-ui;margin-top:4px">从上方列表点击选择</div>`;
+  }
+}
+
+// ── CUSTOM MUSICIAN ──
+let _customSide = null;
+function openCustom(side){
+  _customSide = side;
+  document.getElementById('custom-panel').style.display='block';
+  document.getElementById('custom-panel-title').textContent=`自定义 ${side.toUpperCase()} 方音乐家`;
+  document.getElementById('persona-fields').style.display='none';
+  document.getElementById('persona-loading').style.display='none';
+  document.getElementById('persona-err').style.display='none';
+  document.getElementById('custom-name-in').value='';
+  document.getElementById('custom-panel').scrollIntoView({behavior:'smooth'});
+}
+function closeCustom(){
+  document.getElementById('custom-panel').style.display='none';
+}
+async function fetchPersona(){
+  const name = document.getElementById('custom-name-in').value.trim();
+  if(!name) return;
+  if(!STATE.apiKey){ alert('请先填写 DeepSeek API Key'); return; }
+  document.getElementById('persona-fields').style.display='none';
+  document.getElementById('persona-loading').style.display='flex';
+  document.getElementById('persona-err').style.display='none';
+  try {
+    const raw = await ask(
+      `你是音乐史专家。用户输入一位音乐家姓名，你提取这个人的真实信息，生成一份性格档案，用于戏剧性辩论游戏。
+严格JSON输出，不要其他内容：
+{"valid":true或false,"reason":"若invalid填写原因","name":"中文全名","era":"生卒年·国籍","tension":"张力标签，格式：特质×命运，例：天才×穷死","quote":"他/她说过的或关于他/她最著名的一句话，要有冲击力，加「」","belief":"他/她对音乐最极端的核心主张，第一人称，20字内","wound":"他/她人生中最大的创伤或执念，具体事件，30字内","attack":"对手在辩论里最可能用来攻击他/她的一句话，第三人称，20字内","opening":"他/她第一次开口时会说的第一句话，不是自我介绍，要有个性，20字内"}
+验证规则：必须是2010年前去世的真实音乐家（作曲家/歌手/乐手），否则valid=false。`,
+      `请提取这位音乐家的信息：${name}`,
+      0.4, 800
+    );
+    const data = parseJ(raw);
+    if(!data.valid){ throw new Error(data.reason||'不符合条件'); }
+    document.getElementById('pf-era').textContent=`${data.name}　${data.era}`;
+    document.getElementById('pf-tension').textContent=data.tension;
+    document.getElementById('pf-quote').textContent=data.quote;
+    document.getElementById('pf-belief').textContent=data.belief;
+    document.getElementById('pf-wound').textContent=data.wound;
+    document.getElementById('pf-opening').textContent=data.opening;
+    document.getElementById('persona-loading').style.display='none';
+    document.getElementById('persona-fields').style.display='block';
+    // store draft
+    window._personaDraft = data;
+  } catch(e){
+    document.getElementById('persona-loading').style.display='none';
+    document.getElementById('persona-err').style.display='block';
+    document.getElementById('persona-err-msg').textContent=e.message;
+  }
+}
+function confirmCustom(){
+  const d = window._personaDraft;
+  if(!d) return;
+  const eraEl = document.getElementById('pf-era').textContent;
+  const m = {
+    name: d.name,
+    era: document.getElementById('pf-era').textContent.replace(d.name,'').trim(),
+    initial: d.name.slice(-1),
+    tension: document.getElementById('pf-tension').textContent,
+    quote: document.getElementById('pf-quote').textContent,
+    belief: document.getElementById('pf-belief').textContent,
+    wound: document.getElementById('pf-wound').textContent,
+    attack: document.getElementById('pf-attack')?.textContent||d.attack,
+    opening: document.getElementById('pf-opening').textContent,
+    custom: true,
+  };
+  if(_customSide==='a') STATE.musicianA={...m};
+  else STATE.musicianB={...m};
+  updateSelDisplay();
+  checkS1Ready();
+  closeCustom();
+}
+
+// ── S1 ──
+function onKeyInput(){
+  const key=document.getElementById('api-key').value.trim();
+  STATE.apiKey=key.startsWith('sk-')?key:'';
+  const st=document.getElementById('key-status');
+  st.className='key-status '+(key.startsWith('sk-')?'ks-ok':'ks-empty');
+  st.textContent=key.startsWith('sk-')?'已填写':key?'格式有误':'未填写';
+  checkS1Ready();
+}
+function checkS1Ready(){
+  document.getElementById('s1-next').disabled=!(STATE.apiKey&&STATE.musicianA&&STATE.musicianB);
+}
+
+// ── S2 SONG ANALYSIS ──
+async function confirmSong(){
+  const v=document.getElementById('song-in').value.trim();
+  if(!v)return;
+  if(!STATE.apiKey){alert('请先填写 DeepSeek API Key');return;}
+  const box=document.getElementById('sc-box');
+  const err=document.getElementById('s2-err');
+  err.style.display='none';
+  box.style.display='block';
+  document.getElementById('sc-sname').textContent=v;
+  document.getElementById('sc-smeta').textContent='正在分析……';
+  document.getElementById('sc-lines').innerHTML='';
+  document.getElementById('sc-stags').innerHTML='';
+  document.getElementById('s2-next').disabled=true;
+  try{
+    const raw = await ask(
+      `你是音乐分析师，为跨时空辩论游戏准备材料。严格JSON输出，不要其他内容：
+{"song":"歌曲名","artist":"艺人","year":年份或null,
+"lines":["分析第一行：这首歌的声音质感（15字内）","分析第二行：它的情绪核心（15字内）","分析第三行：它在说什么故事（20字内）","分析第四行：它在那个时代意味着什么（20字内）","分析第五行（重点，highlight）：它最难被正面回答的那个问题（20字内）"],
+"emotion_tags":["2-3个情绪词"],"music_tags":["2-3个风格词"],
+"debate_gap":"辩论中最值得追问的哲学盲点，一句话",
+"audience_suggestions":[{"name":"历史人物全名","era":"生卒年·国籍","trigger_reason":"一句话","initials":"2字"}]}
+audience_suggestions提供2个，必须2010年前去世的真实历史人物，不要音乐家。`,
+      `分析这首歌：${v}`, 0.3, 1200
+    );
+    const data=parseJ(raw);
+    STATE.song=data;
+    document.getElementById('sc-sname').textContent=data.song;
+    document.getElementById('sc-smeta').textContent=[data.artist,data.year].filter(Boolean).join(' · ')+' · 分析完成';
+    // animate lines
+    const linesEl=document.getElementById('sc-lines');
+    const lines=data.lines||[];
+    for(let i=0;i<lines.length;i++){
+      await delay(350);
+      const d=document.createElement('div');
+      d.className='analysis-line'+(i===lines.length-1?' highlight':'');
+      d.textContent=(i===lines.length-1?'→ ':'')+lines[i];
+      linesEl.appendChild(d);
+      requestAnimationFrame(()=>{ setTimeout(()=>d.classList.add('show'),20); });
+    }
+    // tags
+    const tagsEl=document.getElementById('sc-stags');
+    [...(data.emotion_tags||[]),...(data.music_tags||[])].forEach(t=>{
+      const s=document.createElement('span');
+      s.className='tag tag-g';s.textContent=t;tagsEl.appendChild(s);
+    });
+    if(data.audience_suggestions?.length) STATE.randAudience=data.audience_suggestions[0];
+    document.getElementById('s2-next').disabled=false;
+  }catch(e){
+    box.style.display='none';
+    err.style.display='block';
+    document.getElementById('s2-err-msg').textContent=e.message;
+  }
+}
+
+// ── S3 DELIBERATION ──
+async function initDelib(){
+  STATE.transcript=[];STATE._randShown=false;STATE.grTranscript=[];
+  STATE.winRate={a:50,b:50};STATE.summonedGuest=null;
+  const {musicianA:mA,musicianB:mB,song}=STATE;
+  document.getElementById('s3-song').textContent=song?.name||'';
+  document.getElementById('s3-meta').textContent=[song?.artist,song?.year].filter(Boolean).join(' · ');
+  ['d0','d1','d2','d3'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('show');});
+  document.getElementById('verdict-box').classList.remove('show');
+  const cta=document.getElementById('delib-cta');
+  cta.style.opacity='0';cta.style.pointerEvents='none';
+
+  const sna=shortName(mA.name), snb=shortName(mB.name);
+  document.getElementById('d0-name').textContent=sna;
+  document.getElementById('d2-name').textContent=sna;
+  document.getElementById('d1-name').textContent=snb;
+  document.getElementById('d3-name').textContent=snb;
+  document.getElementById('d0-av').textContent=mA.initial;
+  document.getElementById('d2-av').textContent=mA.initial;
+  document.getElementById('d1-av').textContent=mB.initial;
+  document.getElementById('d3-av').textContent=mB.initial;
+  document.getElementById('v-name-a').textContent=sna;
+  document.getElementById('v-name-b').textContent=snb;
+
+  const steps=[
+    {id:'d0',m:mA,hint:'反对或保留，用自己的世界观去感受这首歌，用出场白风格开口',textId:'d0-text'},
+    {id:'d1',m:mB,hint:'支持或赞赏，从自己的人生经历里找共鸣，不要直接说"这首歌很好"',textId:'d1-text'},
+    {id:'d2',m:mA,hint:'回应对方刚才说的，抓住对方一个具体的词或判断，驳斥它',textId:'d2-text'},
+    {id:'d3',m:mB,hint:'反击，引用对方原话，然后说它哪里错了，越具体越好',textId:'d3-text'},
+  ];
+  for(const {id,m,hint,textId} of steps){
+    try{
+      const text=await ask(buildPersonaSystem(m), buildDelibUser(m, STATE.song, hint, STATE.transcript), 0.9, 350);
+      document.getElementById(textId).textContent=text;
+      STATE.transcript.push({name:m.name,text,side:m===mA?'a':'b'});
+      document.getElementById(id).classList.add('show');
+      await delay(800);
+    }catch(e){
+      document.getElementById(textId).textContent='（生成失败：'+e.message+'）';
+      document.getElementById(id).classList.add('show');
+    }
+  }
+  document.getElementById('v-stance-a').textContent='反对此曲';
+  document.getElementById('v-stance-b').textContent='支持此曲';
+  document.getElementById('verdict-box').classList.add('show');
+  await delay(400);
+  cta.style.opacity='1';cta.style.pointerEvents='auto';
+}
+
+// ── PROMPT BUILDERS ──
+function buildPersonaSystem(m){
+  return `你现在是${m.name}（${m.era}）。
+你的核心信念：${m.belief}
+你的人生创伤：${m.wound}
+你说话的方式：直接，有刺，从不废话。情绪先于逻辑。偶尔会说到一半停下来，因为某件往事触动了你。
+绝对规则：
+- 全程第一人称，直接开口，没有"我认为""作为一名音乐家"这种套壳
+- 不使用你那个时代之后才有的词汇和概念
+- 每条发言只有一句话是你真正想说的，其他都是在到达那句话的路上
+- 最多90字，多了违规`;
+}
+function buildDelibUser(m, song, hint, transcript){
+  const recent=(transcript||[]).slice(-4).map(t=>`${shortName(t.name)}：${t.text}`).join('\n');
+  return `歌曲：《${song.name}》（${song.artist||''}）
+这首歌的核心：${song.lines?.[4]||song.debate_gap||''}
+${recent?`刚才对方说的：\n${recent}\n`:''}
+现在你开口：${hint}`;
+}
+function buildDebateSystem(m){
+  return `你现在是${m.name}（${m.era}）。
+你的核心信念：${m.belief}
+你的人生创伤：${m.wound}
+你在一场公开辩论中，对手就在你旁边，观众在看，裁判在计分。
+说话规则：
+- 第一人称直接说，没有括号动作，没有旁白
+- 必须在发言里回应对手上一条发言的某个具体词或论点，不能自说自话
+- 至少有一次把自己的人生经历直接挂进来，说"这让我想到……"
+- 说话要有刺，但刺要对准具体的东西，不能只是"我不同意"
+- 最多100字`;
+}
+function buildDebateUser(m, opp, song, round, transcript, grMessages, warn){
+  const themes=['死磕音乐本身——技法、旋律、结构，要说具体的，不能只说好或不好','把你自己的人生经历扯进来，跟这首歌的创作背景硬刚','把对手前两轮说过的话揪出来当靶子，必须引用对手原话，然后打脸'];
+  const recent=(transcript||[]).slice(-10).map(t=>`${shortName(t.name)}：${t.text}`).join('\n');
+  const grLines=(grMessages||[]).slice(-3).map(t=>`Gr说：${t}`).join('\n');
+  return `对手：${shortName(opp.name)}
+辩论歌曲：《${song.name}》，它的核心问题：${song.lines?.[4]||song.debate_gap||''}
+第${round}轮任务：${themes[round-1]}
+${grLines?`观众席Gr小姐刚刚说了：\n${grLines}\n（你可以选择回应她，也可以无视她，但她的问题不能假装没听见）\n`:''}${warn?`裁判上轮警告你：${warn}\n`:''}近期发言：
+${recent}
+轮到你了。`;
+}
+
+// ── S4 DEBATE ──
+let debateRunning=false;
+let grPending=[];
+let debateState={round:1,scores:{a:[0,0,0],b:[0,0,0]},judgeWarning:''};
+
+async function initDebate(){
+  document.getElementById('feed').innerHTML='';
+  debateState={round:1,scores:{a:[0,0,0],b:[0,0,0]},judgeWarning:''};
+  debateRunning=true;
+  grPending=[];
+
+  const {musicianA:mA,musicianB:mB,song}=STATE;
+  document.getElementById('sb-song').textContent=song?.name||'';
+  document.getElementById('sb-meta').textContent=[song?.artist,song?.year].filter(Boolean).join(' · ');
+  document.getElementById('sb-av-a').textContent=mA.initial;
+  document.getElementById('sb-av-b').textContent=mB.initial;
+  document.getElementById('sb-na').textContent=shortName(mA.name);
+  document.getElementById('sb-nb').textContent=shortName(mB.name);
+  document.getElementById('sb-era-a').textContent=mA.era;
+  document.getElementById('sb-era-b').textContent=mB.era;
+  document.getElementById('sb-stance-a').textContent='反对';
+  document.getElementById('sb-stance-b').textContent='支持';
+  document.getElementById('wr-la').textContent=shortName(mA.name);
+  document.getElementById('wr-lb').textContent=shortName(mB.name);
+  setWinRate(50,50,'—');
+  activateGrInput();
+
+  for(let round=1;round<=3;round++){
+    debateState.round=round;
+    document.querySelectorAll('.sb-round').forEach((r,i)=>r.classList.toggle('cur',i===round-1));
+    document.getElementById('round-label').textContent=`第${round=== 1?'一':round===2?'二':'三'}轮 · ${['音乐本身','人与歌','终极攻击'][round-1]}`;
+
+    for(let turn=0;turn<5;turn++){
+      document.getElementById('turn-counter').textContent=`发言 ${turn+1}/5`;
+      const isA=turn%2===0;
+      const musician=isA?mA:mB;
+      const opp=isA?mB:mA;
+      const side=isA?'a':'b';
+
+      // flush Gr pending
+      const grSnap=[...grPending]; grPending=[];
+
+      setIZLoading();
+      try{
+        const text=await ask(
+          buildDebateSystem(musician),
+          buildDebateUser(musician,opp,STATE.song,round,STATE.transcript,grSnap,debateState.judgeWarning),
+          0.92, 400
+        );
+        STATE.transcript.push({name:musician.name,text,side});
+        appendBubble(side,musician,text);
+        await delay(300);
+        // commentary
+        const comment=await ask(
+          `你是体育解说员风格的音乐辩论评论员。一句话，15字以内，说这条发言发生了什么，要辣，要准，像体育解说。不说废话。直接输出那句话，不加引号不加标点解释。`,
+          `发言者：${musician.name}\n内容：${text}\n对手：${opp.name}`,
+          0.8,60
+        );
+        appendCommentary(comment);
+        await delay(200);
+      }catch(e){appendErrNote(e.message);}
+
+      // rand audience appears in round 1 turn 2
+      if(round===1&&turn===2&&!STATE._randShown&&STATE.randAudience){
+        STATE._randShown=true;
+        document.getElementById('sb-rand-row').style.display='flex';
+        document.getElementById('sb-rand-av').textContent=STATE.randAudience.initials||STATE.randAudience.name.slice(0,2);
+        document.getElementById('sb-rand-name').textContent=STATE.randAudience.name;
+        try{
+          const rText=await ask(
+            `你是${STATE.randAudience.name}（${STATE.randAudience.era}）。${STATE.randAudience.trigger_reason} 你刚旁听了一段音乐辩论，从自己的人生经历和世界观出发说几句，最后留一个让双方难以回答的问题。不超过80字。直接开口，不要自我介绍。`,
+            `辩论话题：《${STATE.song.name}》，这首歌在问：${STATE.song.lines?.[4]||STATE.song.debate_gap||''}\n双方刚说：${STATE.transcript.slice(-3).map(t=>shortName(t.name)+'：'+t.text.slice(0,30)).join('；')}`,
+            0.9, 300
+          );
+          STATE.transcript.push({name:STATE.randAudience.name,text:rText,side:'rand'});
+          appendRandBlock(STATE.randAudience,rText);
+        }catch(e){appendErrNote(e.message);}
+        await delay(400);
+      }
+      await delay(300);
+    }
+
+    // per-round judge eval + win rate update
+    setIZLoading();
+    try{
+      const rt=STATE.transcript.filter(t=>t.side==='a'||t.side==='b').slice(-12);
+      const raw=await ask(
+        `你是裁判JUDGE-0，冷静，毒舌，不废话。严格JSON输出：
+{"scoreA":{"logic":1到10,"rebuttal":1到10,"character":1到10,"total":三项合计乘以1.1取整},"scoreB":{"logic":1到10,"rebuttal":1到10,"character":1到10,"total":三项合计乘以1.1取整},"winRateA":30到70之间的整数,"bestLine":{"who":"A或B","quote":"最有力的一句，20字内"},"weakestLine":{"who":"A或B","quote":"最水的一句，20字内"},"comment":"点评，要辣，说具体，50字内","warning":"给下一轮的警告，让人冒汗的一句话","summon":null或{"name":"历史人物全名","era":"生卒年·国籍","initials":"2字","reason":"召唤理由一句话"}}
+双方总分差至少5分。若Gr小姐的介入让某方更犀利，winRateA上下可浮动5。若A方整体占优，winRateA>50；否则<50。`,
+        `第${round}轮发言：\n${rt.map(t=>`${t.name}：${t.text}`).join('\n')}\nA方：${mA.name}，B方：${mB.name}\nGr介入内容：${STATE.grTranscript.slice(-3).join('；')||'无'}`,
+        0.3, 700
+      );
+      const jdata=parseJ(raw);
+      debateState.scores.a[round-1]=jdata.scoreA.total||0;
+      debateState.scores.b[round-1]=jdata.scoreB.total||0;
+      debateState.judgeWarning=jdata.warning||'';
+      STATE.scores=debateState.scores;
+      const wrA=jdata.winRateA||50;
+      setWinRate(wrA, 100-wrA, jdata.comment||'');
+      appendJudgeCard(jdata,round);
+      document.getElementById('sc'+round).textContent=jdata.scoreA.total+'·'+jdata.scoreB.total;
+      // summon?
+      if(jdata.summon&&!STATE.summonedGuest){
+        STATE.summonedGuest=jdata.summon;
+        document.getElementById('sb-summon-row').style.display='flex';
+        document.getElementById('sb-summon-av').textContent=jdata.summon.initials;
+        document.getElementById('sb-summon-name').textContent=jdata.summon.name;
+        await delay(600);
+        await doSummon(jdata.summon);
+      }
+    }catch(e){appendErrNote('裁判评分失败：'+e.message);}
+    await delay(700);
+  }
+
+  setIZDone();
+  await delay(1200);
+  goTo(5);
+}
+
+async function doSummon(guest){
+  try{
+    const text=await ask(
+      `你是${guest.name}（${guest.era}）。裁判刚刚召唤你来，因为：${guest.reason}。你走进辩论场，用你自己的视角说几句话，然后向双方提一个犀利的问题。不超过80字。直接开口。`,
+      `辩论：《${STATE.song.name}》。${shortName(STATE.musicianA.name)}（反对）和${shortName(STATE.musicianB.name)}（支持）正在辩论。最近说的：${STATE.transcript.slice(-4).map(t=>shortName(t.name)+'：'+t.text.slice(0,35)).join('；')}`,
+      0.9, 300
+    );
+    STATE.transcript.push({name:guest.name,text,side:'summon'});
+    appendSummonBlock(guest,text);
+  }catch(e){appendErrNote('召唤失败：'+e.message);}
+}
+
+// ── WIN RATE ──
+function setWinRate(a, b, comment){
+  STATE.winRate={a,b};
+  document.getElementById('wr-fill-a').style.width=a+'%';
+  document.getElementById('wr-fill-b').style.width=b+'%';
+  document.getElementById('wr-na').textContent=a+'%';
+  document.getElementById('wr-nb').textContent=b+'%';
+  document.getElementById('wr-comment').textContent=comment||'—';
+}
+
+// ── GR INPUT ──
+function activateGrInput(){
+  const iz=document.getElementById('input-zone');
+  iz.innerHTML=`
+    <div class="gr-hint" id="gr-hints">
+      <span onclick="injectGrHint('打断——')">💬 打断</span>
+      <span onclick="injectGrHint('爆料：')">💣 爆料</span>
+      <span onclick="injectGrHint('我想问你们——')">❓ 提问</span>
+      <span onclick="injectGrHint('我支持')">⚡ 站队</span>
+    </div>
+    <div class="iz-gr-bar">
+      <div class="iz-gr-av">Gr</div>
+      <input class="iz-input" id="gr-input" placeholder="你是 Gr 小姐，随时可以说话……" onkeydown="if(event.key==='Enter')sendGr()"/>
+      <button class="iz-send" onclick="sendGr()">发言</button>
+    </div>`;
+}
+function injectGrHint(text){
+  const el=document.getElementById('gr-input');
+  if(el){ el.value=text; el.focus(); }
+}
+function setIZLoading(){
+  // keep Gr input but show loading indicator above feed
+  // don't replace input zone
+}
+function setIZDone(){
+  const iz=document.getElementById('input-zone');
+  iz.innerHTML='<div style="font-size:12px;color:var(--gray-400);padding:8px 0;text-align:center;font-family:system-ui">辩论结束，正在生成最终判词…</div>';
+}
+async function sendGr(){
+  const el=document.getElementById('gr-input');
+  if(!el) return;
+  const text=el.value.trim();
+  if(!text) return;
+  el.value='';
+  // show Gr message
+  appendGrPlayerBubble(text);
+  STATE.grTranscript.push(text);
+  grPending.push(text);
+  // AI musicians react immediately if debate is running
+  if(debateRunning && STATE.transcript.length>0){
+    // pick the musician who last spoke (or random)
+    const lastSide=STATE.transcript.filter(t=>t.side==='a'||t.side==='b').slice(-1)[0]?.side;
+    const reactor=lastSide==='a'?STATE.musicianB:STATE.musicianA;
+    const side=lastSide==='a'?'b':'a';
+    try{
+      const react=await ask(
+        buildDebateSystem(reactor),
+        `Gr小姐（观众席）突然对你们说："${text}"\n这直接触动了你。你现在的第一反应——不超过60字，可以是反驳她，可以是被她问住，可以是用她的问题攻击对手。`,
+        0.93, 200
+      );
+      STATE.transcript.push({name:reactor.name,text:react,side,grTriggered:true});
+      appendBubble(side,reactor,react,'↩ 回应 Gr');
+    }catch(e){}
+  }
+}
+function appendGrPlayerBubble(text){
+  const feed=document.getElementById('feed');
+  const div=document.createElement('div');
+  div.className='msg-row right';
+  div.innerHTML=`<div class="av av-gr" style="width:26px;height:26px;font-size:9px;margin-top:2px">Gr</div><div class="msg-body"><div class="sender-pl">Gr 小姐（你）</div><div class="bubble bub-gr">${esc(text)}</div></div>`;
+  feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+}
+
+// ── FEED HELPERS ──
+function appendBubble(side,musician,text,extraTag=''){
+  const feed=document.getElementById('feed');
+  const row=document.createElement('div');
+  row.className='msg-row';
+  const tag=extraTag?`<span class="etag etag-gr" style="margin-left:4px">${esc(extraTag)}</span>`:'';
+  row.innerHTML=`<div class="av av-${side}" style="width:26px;height:26px;font-size:9px;margin-top:2px">${musician.initial}</div><div class="msg-body"><div class="sender-${side}">${esc(shortName(musician.name))}${tag}</div><div class="bubble bub-${side}">${esc(text)}</div></div>`;
+  feed.appendChild(row);feed.scrollTop=feed.scrollHeight;
+}
+function appendCommentary(text){
+  const feed=document.getElementById('feed');
+  const div=document.createElement('div');
+  div.className='commentary';
+  div.textContent='— '+text;
+  feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+}
+function appendRandBlock(person,text){
+  const feed=document.getElementById('feed');
+  const div=document.createElement('div');
+  div.className='gr-block';
+  div.innerHTML=`<div class="av av-rand" style="width:26px;height:26px;font-size:9px;margin-top:2px">${esc(person.initials||person.name.slice(0,2))}</div><div class="gr-bubble-wrap"><div class="sender-rand">${esc(person.name)} <span class="etag etag-rand">随机观众</span></div><div class="bubble bub-rand">${esc(text)}</div></div>`;
+  feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+}
+function appendSummonBlock(guest,text){
+  const feed=document.getElementById('feed');
+  const div=document.createElement('div');
+  div.className='summon-banner';
+  div.innerHTML=`<div class="summon-av">${esc(guest.initials)}</div><div><div class="summon-name">${esc(guest.name)} <span class="etag" style="background:var(--purple-light);color:var(--purple-dark);border:0.5px solid var(--purple-mid)">裁判召唤</span></div><div class="summon-text">${esc(text)}</div></div>`;
+  feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+}
+function appendJudgeCard(jdata,round){
+  const feed=document.getElementById('feed');
+  const na=shortName(STATE.musicianA.name),nb=shortName(STATE.musicianB.name);
+  const div=document.createElement('div');
+  div.className='judge-card';
+  div.innerHTML=`<div class="jc-hd"><div class="jc-title">裁判 · 第${round}轮评分</div><div class="jc-round">Round ${round}/3</div></div><div class="jscores"><div class="jscore"><div class="jscore-who-a">${na}</div><div class="jscore-n">${jdata.scoreA.total}</div><div class="jscore-d">论据${jdata.scoreA.logic}·反驳${jdata.scoreA.rebuttal}·人格${jdata.scoreA.character}</div></div><div class="jscore"><div class="jscore-who-b">${nb}</div><div class="jscore-n">${jdata.scoreB.total}</div><div class="jscore-d">论据${jdata.scoreB.logic}·反驳${jdata.scoreB.rebuttal}·人格${jdata.scoreB.character}</div></div></div><div class="jc-text"><span class="jc-hl">最强：</span>${esc(jdata.bestLine?.who==='A'?na:nb)}「${esc(jdata.bestLine?.quote||'')}」 <span class="jc-hl">最弱：</span>「${esc(jdata.weakestLine?.quote||'')}」<br>${esc(jdata.comment||'')}${jdata.warning?`<div class="jc-warn">${esc(jdata.warning)}</div>`:''}</div>`;
+  feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+}
+function appendErrNote(msg){
+  const feed=document.getElementById('feed');
+  const div=document.createElement('div');
+  div.style.cssText='background:#fff5f5;border:0.5px solid #ffcdd2;border-radius:8px;padding:8px 12px;font-size:11px;color:#e57373;margin-bottom:8px;font-family:system-ui';
+  div.textContent='⚠ '+msg;
+  feed.appendChild(div);feed.scrollTop=feed.scrollHeight;
+}
+
+// ── S5 ENDING ──
+async function initEnding(){
+  debateRunning=false;
+  const {scores,musicianA:mA,musicianB:mB,randAudience}=STATE;
+  const ta=scores.a.reduce((s,v)=>s+v,0),tb=scores.b.reduce((s,v)=>s+v,0);
+  const na=shortName(mA.name),nb=shortName(mB.name);
+  const aWins=ta>=tb;
+  document.getElementById('end-na').textContent=na;
+  document.getElementById('end-nb').textContent=nb;
+  document.getElementById('end-tot-a').textContent=ta;
+  document.getElementById('end-tot-b').textContent=tb;
+  document.getElementById('end-det-a').textContent=`R1 ${scores.a[0]} · R2 ${scores.a[1]} · R3 ${scores.a[2]}`;
+  document.getElementById('end-det-b').textContent=`R1 ${scores.b[0]} · R2 ${scores.b[1]} · R3 ${scores.b[2]}`;
+  const ssA=document.getElementById('ss-a'),ssB=document.getElementById('ss-b');
+  const badge=document.getElementById('winner-badge');
+  if(aWins){ssA.classList.add('winner');badge.className='wb wb-a';badge.textContent='获胜';ssA.insertBefore(badge,ssA.firstChild);}
+  else{ssB.classList.add('winner');}
+  for(let i=1;i<=3;i++){
+    const sa=scores.a[i-1],sb=scores.b[i-1],total=sa+sb||1;
+    document.getElementById('rb'+i+'a').textContent=sa;
+    document.getElementById('rb'+i+'b').textContent=sb;
+    document.getElementById('rbba'+i).style.width=(sa/total*100)+'%';
+    document.getElementById('rbbb'+i).style.width=(sb/total*100)+'%';
+    const wEl=document.getElementById('rbw'+i);
+    if(sa>sb){wEl.textContent=na+'胜';wEl.style.color='var(--blue-dark)';}
+    else if(sb>sa){wEl.textContent=nb+'胜';wEl.style.color='var(--green-dark)';}
+    else{wEl.textContent='平局';wEl.style.color='var(--gray-400)';}
+  }
+  if(randAudience){
+    document.getElementById('rand-ep').style.display='flex';
+    document.getElementById('rand-ep-av').textContent=randAudience.initials||randAudience.name.slice(0,2);
+    document.getElementById('rand-ep-name').textContent=randAudience.name;
+  }
+  try{
+    const raw=await ask(
+      `你是裁判JUDGE-0，宣读最终判词。语气庄重，偶有毒舌。引用辩论中的真实话语。严格JSON输出：
+{"winner":"A或B","verdict_text":"判词3-4句，必须引用双方各至少一句原话用「」标注，语气有分量","best_line":{"who":"A或B的姓名","quote":"最强金句20字内"},"best_response":{"who":"姓名","desc":"最佳回应15字内"},"sharpest_question":{"who":"提问者姓名","desc":"最刁钻问题15字内"},"gr_epilogue":"Gr小姐终局发言，30字内，有一个动作细节，最后一句有回味","rand_epilogue":"随机观众离场前一句话，20字内"}`,
+      `辩论记录（最后20条）：\n${STATE.transcript.slice(-20).map(t=>`${t.name}：${t.text}`).join('\n')}\nA方：${mA.name}，总分：${ta}\nB方：${mB.name}，总分：${tb}\nGr介入：${STATE.grTranscript.join('；')||'无'}`,
+      0.6, 900
+    );
+    const vdata=parseJ(raw);
+    const winName=vdata.winner==='A'?mA.name:mB.name;
+    const winScore=aWins?ta:tb,loseScore=aWins?tb:ta;
+    document.getElementById('end-verdict-text').innerHTML=`<div class="vw">经本委员会审议，<span class="${vdata.winner==='A'?'qa':'qb'}">${esc(winName)}</span>以 <span class="${vdata.winner==='A'?'qa':'qb'}">${winScore}:${loseScore}</span> 胜出。</div>${esc(vdata.verdict_text)}`;
+    if(vdata.best_line){document.getElementById('aw-best-who').textContent=vdata.best_line.who;document.getElementById('aw-best-quote').textContent='「'+vdata.best_line.quote+'」';}
+    if(vdata.best_response){document.getElementById('aw-resp-who').textContent=vdata.best_response.who;document.getElementById('aw-resp-desc').textContent=vdata.best_response.desc;}
+    if(vdata.sharpest_question){document.getElementById('aw-q-who').textContent=vdata.sharpest_question.who;document.getElementById('aw-q-desc').textContent=vdata.sharpest_question.desc;}
+    if(vdata.gr_epilogue)document.getElementById('gr-epilogue').textContent=vdata.gr_epilogue;
+    if(vdata.rand_epilogue)document.getElementById('rand-epilogue').textContent=vdata.rand_epilogue;
+  }catch(e){
+    document.getElementById('end-verdict-text').innerHTML=`<div class="vw">辩论结束</div>判词生成失败：${esc(e.message)}`;
+  }
+}
+
+// ── NAV ──
+function goTo(n){
+  for(let i=1;i<=5;i++){
+    const s=document.getElementById('s'+i);
+    const pd=document.getElementById('pd'+i);
+    const pl=document.getElementById('pl'+i);
+    const pline=document.getElementById('pline'+i);
+    if(s) s.className='screen'+(i===n?' active':'');
+    if(pd) pd.className='ps-dot'+(i<n?' done':i===n?' cur':'');
+    if(pl) pl.className='ps-label'+(i<n?' done':i===n?' cur':'');
+    if(pline) pline.className='ps-line'+(i<n?' done':'');
+  }
+  if(n===3) initDelib();
+  if(n===4) initDebate();
+  if(n===5) initEnding();
+  window.scrollTo(0,0);
+}
+
+function restart(){
+  STATE.song=null;STATE.transcript=[];STATE.grTranscript=[];
+  STATE.scores={a:[0,0,0],b:[0,0,0]};
+  STATE.winRate={a:50,b:50};
+  STATE._randShown=false;STATE.randAudience=null;STATE.summonedGuest=null;
+  STATE.musicianA=null;STATE.musicianB=null;
+  debateRunning=false;grPending=[];
+  document.getElementById('song-in').value='';
+  document.getElementById('sc-box').style.display='none';
+  document.getElementById('s2-err').style.display='none';
+  document.getElementById('s2-next').disabled=true;
+  // reset pool cards
+  document.querySelectorAll('.pool-card').forEach(c=>{
+    c.classList.remove('sel-a','sel-b');
+    c.querySelectorAll('.pc-badge').forEach(b=>b.remove());
+  });
+  updateSelDisplay();
+  checkS1Ready();
+  goTo(1);
+}
+
+// ── INIT ──
+renderPool();
+</script>
+</body>
+</html>
